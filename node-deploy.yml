@@ -4,7 +4,7 @@ on:
     pull_request:
         types: [closed]
         branches:
-            - dev
+            - master
 
 jobs:
     aws-deploy:
@@ -12,7 +12,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
               with:
-                  ref: dev
+                  ref: master
             - uses: actions/setup-node@v1
             - run: npm install
             - run: npm run bundle
@@ -22,7 +22,7 @@ jobs:
                   SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
                   ARGS: '-rltgoDzvO --delete'
                   SOURCE: 'deploy/'
-                  REMOTE_HOST: 'team0.eaglesoftwareteam.com'
+                  REMOTE_HOST: 'team3.eaglesoftwareteam.com'
                   REMOTE_USER: ubuntu
                   TARGET: 'nodeapps/course-backend'
             - name: Execute SSH commmands on remote server
@@ -30,7 +30,7 @@ jobs:
               env:
                   NAME: 'Root'
               with:
-                  hosts: 'ubuntu@team0.eaglesoftwareteam.com'
+                  hosts: 'ubuntu@team3.eaglesoftwareteam.com'
                   privateKey: ${{ secrets.SERVER_SSH_KEY }}
                   debug: false
                   command: |
