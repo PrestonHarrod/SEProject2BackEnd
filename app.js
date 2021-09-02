@@ -19,6 +19,31 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var mysql = require("mysql");
+app.use(function(req, res, next){
+  res.locals.connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'course'
+  })
+  res.locals.connection.connect();
+  next();
+});
+
+// var mysql = require("mysql");
+// //Database connection
+// app.use(function(req, res, next) {
+//  res.locals.connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "course"
+//   });
+//  res.locals.connection.connect();
+//   next();
+// });
+
 app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
 
