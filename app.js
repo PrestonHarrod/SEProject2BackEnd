@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/courses');
 
 var app = express();
 
@@ -19,8 +19,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var mysql = require("mysql");
+app.use(function(req, res, next){
+  res.locals.connection = mysql.createConnection({
+    host: 't3-database-2.cwre8cvv6tyn.us-west-1.rds.amazonaws.com',
+    user: 'admin',
+    password: 'seiv-t3-2021',
+    database: 'courses'
+  })
+  res.locals.connection.connect();
+  next();
+});
+
+
 app.use('/api', indexRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/courses', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
