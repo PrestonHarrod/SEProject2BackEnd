@@ -1,6 +1,39 @@
 var express = require('express');
 var router = express.Router();
 
+function validate(course) {
+  var errorMessage = "[";
+
+  if (course.Dept == null || course.Dept.length == 0) {
+    if (errorMessage.length > 1) errorMessage += ",";
+    errorMessage +=
+      '{"attributeName":"Dept", "message":"Must have a department"}';
+  }
+  if (course['Course Number'] == null || course['Course Number'].length == 0) {
+    if (errorMessage.length > 1) errorMessage += ",";
+    errorMessage +=
+      '{"attributeName":"CourseNumber" , "message":"Must a course number"}';
+  }
+  if (course.Level == null || course.Level.length == 0) {
+    if (errorMessage.length > 1) errorMessage += ",";
+    errorMessage += '{"attributeName":"Level" , "message":"Must have a level}';
+  }
+  if (course.Hours == null || course.Hours.length == 0) {
+    if (errorMessage.length > 1) errorMessage += ",";
+    errorMessage += '{"attributeName":"Hours" , "message":"Must have hours"}';
+  }
+  if (course.Name == null || course.Name.length == 0) {
+    if (errorMessage.length > 1) errorMessage += ",";
+    errorMessage += '{"attributeName":"Name" , "message":"Must have a name"}';
+  }
+  if (course.Description == null || course.Description.length == 0) {
+    if (errorMessage.length > 1) errorMessage += ",";
+    errorMessage += '{"attributeName":"Description" , "message":"Must have email"}';
+  }
+  errorMessage += "]";
+  return errorMessage;
+}
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   var offset;
