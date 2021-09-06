@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var mysql = require("mysql");
 app.use(function(req, res, next){
   res.locals.connection = mysql.createConnection({
-    host: 't3-database-2.cwre8cvv6tyn.us-west-1.rds.amazonaws.com',
+    host: 't3-database-2.cwre8cvv6tyn.us-west-1.rds.amazonaws.com', //Change everytime we need to test locally
     user: 'admin',
     password: 'seiv-t3-2021',
     database: 'courses'
