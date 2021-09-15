@@ -38,12 +38,10 @@ function validate(course) {
 router.get('/', function(req, res, next) {
   var offset;
   var limit;
-  if (req.query.page == null) offset = 0;
-  else offset = parseInt(req.query.page);
-  if (req.query.per_page == null) limit = 20;
-  else limit = parseInt(req.query.per_page);
+  offset = req.query.index; //changed here
+ limit = 20; //save for later
   res.locals.connection.query(
-    "SELECT * FROM courses LIMIT 5000 OFFSET ?",
+    "SELECT * FROM courses LIMIT 50 OFFSET " + offset,
     [limit, offset],
     function(error, results, fields) {
       if (error) {
