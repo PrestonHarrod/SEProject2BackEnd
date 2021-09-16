@@ -11,24 +11,26 @@ var usersRouter = require('./routes/courses');
 var app = express();
 
 var corsOptions = {
-  origin: 'http://localhost:8081',
+  origin: '*',
 }
+
 
 app.use(cors(corsOptions));
 app.options('*', cors());
+
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type', 'Access-Control-Allow-Origin');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,10 +41,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 var mysql = require("mysql");
 app.use(function(req, res, next){
   res.locals.connection = mysql.createConnection({
-    host: 't3-database-2.cwre8cvv6tyn.us-west-1.rds.amazonaws.com',
-    user: 'admin',
-    password: 'seiv-t3-2021',
-    database: 'courses'
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'course'
   })
   res.locals.connection.connect();
   next();
